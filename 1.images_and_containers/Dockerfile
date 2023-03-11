@@ -1,7 +1,19 @@
 #===============================================================================
 # FROM
 #-------------------------------------------------------------------------------
-# Base image
+# Docker image consists of multiple layers (instructions). Each instruction
+# once executed, is cached and can be reused
+#
+# The first instruction is the base image, it's the starting point of the image
+# and it's mandatory
+# 
+# The base image is a snapshot of the container at a given time, it's a
+# read-only image. 
+#
+# When one layer is changed every instruction after is executed again
+# (rebuild the image)
+#
+# When you modify local code for instance, you need to rebuild the image
 #===============================================================================
 FROM node
 
@@ -19,11 +31,10 @@ WORKDIR /app
 #-------------------------------------------------------------------------------
 # From local directory to the container
 #------------------------------------------------------------------------------- 
-# Takes a snapshot of the local directory and copy it to the container
-# If you change the local directory, you need to rebuild the image
 #-------------------------------------------------------------------------------
-# Layers are cached, package.json is not changed often, so it's a good idea to
-# copy it first
+# Layers being cached and package.json being stable file, it's good idea
+# to copy it firs, it's good idea, therefore avoiding rebuilding this 
+# layer every time you change local code
 #===============================================================================
 COPY package.json .
 
